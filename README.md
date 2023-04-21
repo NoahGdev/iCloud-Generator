@@ -1,10 +1,10 @@
-# iCloud HideMyEmail Generator
-
-![iCloud Generator](https://cdn.mos.cms.futurecdn.net/Cdpw6TMsvTS3tPWmYuVXz6.png)
+# iCloud Generator
 
 ## Introduction
 
 This Python script automates the generation process of iCloud emails. HideMyEmail is a feature of iCloud that allows users to create temporary email addresses for online use, which helps protect their privacy and avoid spam emails. However, generating multiple HideMyEmail addresses manually can be a time-consuming and tedious process. This script simplifies the process by generating multiple HideMyEmail addresses in one go.
+
+All emails generated will be saved in Accounts/Generated.csv
 
 ## Requirements
 
