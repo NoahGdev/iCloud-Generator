@@ -1,11 +1,10 @@
 from colorama import Fore, Style, init
 from pyfiglet import figlet_format
 import os
-import colorama
 from termcolor import colored
 import six
 from utils.custom_logger import CustomLogger as log
-from utils.config import getConfig, makeConfig, makeProxies
+from utils.config import getConfig, makeConfig, makeProxies, checkConfig
 import itertools
 
 from src.iCloud import iCloud
@@ -15,6 +14,7 @@ from src.iCloud import iCloud
 makeConfig()
 userConfig = getConfig()
 makeProxies()
+checkConfig()
 
 successfulEntries = itertools.count()
 failedEntries = itertools.count()
@@ -30,29 +30,45 @@ def menu_log(string, color, font="slant", figlet=False):
     else:
         six.print_(string)
 
-colorama.init()
+init()
 
-os.system("cls")
-word = 'iCloud Generator'
-print(Fore.CYAN + figlet_format(word, font='slant', width=115) + Fore.WHITE)
+def start():
+    while True:
+        os.system("cls")
+        word = 'iCloud Generator'
+        print(Fore.CYAN + figlet_format(word, font='slant', width=115) + Fore.WHITE)
 
-term_size = os.get_terminal_size()
-print(Fore.CYAN + '\u2500' * ((term_size.columns // 2) + 3) + Fore.WHITE )
+        term_size = os.get_terminal_size()
+        print(Fore.CYAN + '\u2500' * ((term_size.columns // 2) + 3) + Fore.WHITE )
 
-menu_log(" " * 28 + "Menu" , "cyan")
-print(Fore.CYAN + '\u2500' * ((term_size.columns // 2) + 3) + Fore.WHITE )
+        menu_log(" " * 28 + "Menu" , "cyan")
+        print(Fore.CYAN + '\u2500' * ((term_size.columns // 2) + 3) + Fore.WHITE )
 
 
-print("\n")
-menu_log("1) Start Gen", "cyan")
-menu_log("2) Start Exporter", "cyan")
+        print("\n")
+        menu_log("1) Start Gen", "cyan")
+        menu_log("2) Start Exporter", "cyan")
 
-option = int(input("\n> "))
+        option = int(input("\n> "))
 
-if option == 1:
-    taskCount = "ꝏ"
+        if option == 1:
+            os.system("cls")
+            taskCount = "ꝏ"
 
-    generator = iCloud(userConfig, log, successfulEntries, failedEntries)
+            generator = iCloud(userConfig, log, successfulEntries, failedEntries)
 
-    clientBuildNumber, number, dsid, cookies, session, theId, pNumber, primaryEmail, driver = generator.openIcloudBrowser()
-    generator.generate(clientBuildNumber, number, dsid, cookies, session, theId, pNumber, primaryEmail, taskCount, driver)
+            clientBuildNumber, number, dsid, cookies, session, theId, pNumber, primaryEmail, driver = generator.openIcloudBrowser()
+            generator.generate(clientBuildNumber, number, dsid, cookies, session, theId, pNumber, primaryEmail, taskCount, driver)
+            
+            input("Press Any Key To Continue")
+            continue
+            
+            
+        elif option == 2:
+            print(Fore.LIGHTRED_EX + f'I will add this soon, busy right now :)' + Fore.WHITE)
+            input("Press Any Key To Continue")
+            continue
+    
+if __name__ == "__main__":
+    start()
+    
