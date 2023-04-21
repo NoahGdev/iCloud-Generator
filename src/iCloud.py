@@ -13,6 +13,9 @@ import uuid
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
+from multiprocessing import freeze_support
+freeze_support()
+
 successColor = '2284d6'
 failColor = 'E24D41'
 
@@ -111,17 +114,15 @@ class iCloud:
         SECHUA = '".Not/A)Brand";v="99", "Google Chrome";v="111", "Chromium";v="111"'
 
         delay = self.getDelay(self.config['delay'])
-        retryDelay = self.getDela(self.config['retryDelay'])
 
         try:
             chrome_options = uc.ChromeOptions()
             chrome_options.add_argument("--window-size=550,800")
             chrome_options.add_argument(f"--user-agent={USERAGENT}")
-            driver = uc.Chrome(options=chrome_options)
+            driver = uc.Chrome(use_subprocess=True, options=chrome_options)
         except Exception as e:
             self.log.error(f"[{threadnumber}] [{store}] Error Loading Browser -> {str(e)} -> Sleeping for {str(delay)} seconds")
             time.sleep(int(delay))
-            globals.currentThread -= 1
             return
 
         try:
@@ -251,7 +252,7 @@ class iCloud:
         delay = self.getDelay(self.config['delay'])
         retryDelay = self.getDelay(self.config['retryDelay'])
 
-        retry_limit = int(self.config['limits']['task_retries'])
+        retry_limit = 10
         tryCount = 0
 
         self.log.warning(f"[{threadnumber}] [{store}] Generating Email..")
@@ -843,14 +844,7 @@ class iCloud:
 
                     anonymousId = response.json()['result']['hme']['anonymousId']
 
-                    with open('Accounts/Generated.csv', 'r') as accountsfile:
-                        reader = csv.DictReader(accountsfile)
-                        for row in reader:
-                            if (primaryEmail in str(row)) and (email in str(row)):
-                                self.log.error(f"[{threadnumber}] [{store}] Account Already Created [{response.text}] -> Skipping Task")
-                                return
-
-                    self.log.info(f"[{threadnumber}] [{store}] Successfully Generated iCloud Email -> {email} -> sleeping {str(delay)} seconds")
+                    self.log.success(f"[{threadnumber}] [{store}] Successfully Generated iCloud Email -> {email} -> sleeping {str(delay)} seconds")
 
                     next(self.successfulEntries)
 
@@ -880,7 +874,7 @@ class iCloud:
                     continue
                 except Exception as e:
                     try:
-                        self.log.error(f"[{threadnumber}] [{store}] Error Generating Email #122d7s-> {response.text}")
+                        self.log.error(f"[{threadnumber}] [{store}] Error Generating Email #122d7s -> {response.text}")
                     except Exception as e:
                         self.log.error(f"[{threadnumber}] [{store}] Error Generating Email [referenceId: #s27s9] -> {str(e)}")
                     next(self.failedEntries)
