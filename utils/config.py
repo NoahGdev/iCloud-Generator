@@ -37,11 +37,11 @@ def updateConfig(pref, data1):
     pref.write(json.dumps(data1, indent=4))
     
 def checkConfig():
-    with open("config.json", "r") as f:
+    with open("config.json", "r+") as f:
         data = json.load(f)
         
         if data['webhook'] == "":
-            print(Fore.LIGHTRED_EX + f'Notice: Webhook is empty -> Not sending wedbhooks' + Fore.WHITE)
+            print(Fore.LIGHTRED_EX + f'Notice: Webhook is empty -> Not sending webhooks' + Fore.WHITE)
             
         if data['delay'] == "":
             print(Fore.LIGHTRED_EX + f'Notice: Delay is empty -> defaulting to 10' + Fore.WHITE)
