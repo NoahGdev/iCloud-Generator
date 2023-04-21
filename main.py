@@ -4,7 +4,7 @@ import os
 from termcolor import colored
 import six
 from utils.custom_logger import CustomLogger as log
-from utils.config import getConfig, makeConfig, makeProxies, checkConfig
+from utils.config import getConfig, makeConfig, makeProxies, checkConfig, makeCSV
 import itertools
 
 from src.iCloud import iCloud
@@ -15,6 +15,7 @@ makeConfig()
 userConfig = getConfig()
 makeProxies()
 checkConfig()
+makeCSV()
 
 successfulEntries = itertools.count()
 failedEntries = itertools.count()
