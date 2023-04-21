@@ -2,7 +2,21 @@ import json
 import os
 import sys
 from colorama import Fore, init
+import csv
 init()
+
+def line_prepender(filename, header):
+    header = header.split(",")
+    with open(filename, "r") as csvfile:
+        csvreader = csv.reader(csvfile)
+        rows = []
+        next(csvreader)
+        for row in csvreader:
+            rows.append(row)
+        rows.insert(0, header)
+    with open(filename,"w", encoding='UTF8', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerows(rows)
 
 def makeConfig():
     jsonFileData = {
@@ -55,3 +69,30 @@ def checkConfig():
         
 def makeProxies():
     open("proxies.txt", 'a').close()
+    
+def makeCSV():
+    filenameiCloud = "Accounts/Generated.csv"
+    os.makedirs(os.path.dirname(filenameiCloud), exist_ok=True)
+    try:
+        columnNamesiCloud = ['APPLE ID', 'EMAIL', 'ANONYMOUS ID', 'PROXY', 'DATE']
+        with open(filenameiCloud, encoding="utf8") as einhalbFile:
+            einhalbReader = csv.reader(einhalbFile, delimiter=',')
+            line_count = 0
+            for row in einhalbReader:
+                if line_count == 0:
+                    columnNamesiCloudUser = row
+                    line_count += 1
+                else:
+                    line_count += 1
+
+        if columnNamesiCloud != columnNamesiCloudUser:
+            mystring = ",".join(columnNamesiCloud)
+            line_prepender(filenameiCloud, mystring)
+            print(Fore.LIGHTRED_EX + 'Repaired Invalid iCloud Accounts CSV File' + Fore.WHITE)
+    except Exception as e:
+        try:
+            with open(filenameiCloud, 'w', encoding='UTF8') as f:
+                writer = csv.writer(f)
+                writer.writerow(columnNamesiCloud)
+        except Exception as e:
+            pass
