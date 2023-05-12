@@ -2,8 +2,7 @@ colorama==0.4.4
 pyfiglet==0.8.post1
 termcolor==1.1.0
 six==1.16.0
-ctypes-utils==1.0.0
-requests==2.26.0
+requests==2.30.0
 discord-webhook==0.14.0
 beautifulsoup4==4.9.3
 json5==0.9.6
