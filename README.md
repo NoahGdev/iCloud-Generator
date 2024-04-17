@@ -1,3 +1,5 @@
+## NOT ACTIVELY MAINTAINED - WILL ADD/FIX FEATUES WHEN IM FREE
+
 # iCloud Generator
 
 ## Introduction ✨
